@@ -1,6 +1,6 @@
 class Sub < ApplicationRecord
-    validates :description, :name, presence: true
-    validates :name, uniqueness: true 
+    validates :description, :title, presence: true
+    validates :title, uniqueness: true 
 
     has_many :post_subs, inverse_of: :sub, dependent: :destroy 
     has_many :posts, through: :post_subs, source: :post 

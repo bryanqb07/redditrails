@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_01_100332) do
+ActiveRecord::Schema.define(version: 2019_09_01_154219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "post", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "url"
-    t.text "content"
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "post_id", null: false
+    t.integer "parent_comment_id"
+    t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "post_subs", force: :cascade do |t|
@@ -32,6 +33,16 @@ ActiveRecord::Schema.define(version: 2019_09_01_100332) do
     t.index ["post_id", "sub_id"], name: "index_post_subs_on_post_id_and_sub_id", unique: true
     t.index ["post_id"], name: "index_post_subs_on_post_id"
     t.index ["sub_id"], name: "index_post_subs_on_sub_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "url"
+    t.text "content"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "subs", force: :cascade do |t|

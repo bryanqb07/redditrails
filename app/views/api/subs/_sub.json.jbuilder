@@ -1,0 +1,1 @@
+json.extract! sub, :title, :description, :moderator_id
